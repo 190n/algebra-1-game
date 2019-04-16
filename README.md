@@ -13,6 +13,7 @@ Set up and enter virtual environment:
 ```bash
 $ virtualenv -p $(which python3) venv
 $ source venv/bin/activate
+```
 
 Install dependencies:
 
@@ -20,7 +21,7 @@ Install dependencies:
 (venv) $ pip3 install -r requirements.txt
 ```
 
-Tell Flask where to find the app:
+Tell Flask where to find the app and run it:
 
 ```bash
 (venv) $ export FLASK_APP=main.py
