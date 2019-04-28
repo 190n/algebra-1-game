@@ -2,7 +2,7 @@ from flask_login import AnonymousUserMixin
 from argon2.exceptions import VerifyMismatchError
 
 from .. import db
-from . import password_hasher
+from ..auth import password_hasher
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +30,7 @@ class Student(db.Model):
         return True
     
     def get_id(self):
-        return str(self.id)
+        return 's_' + str(self.id)
 
     def set_password(self, pw):
         self.password_hash = password_hasher.hash(pw)
