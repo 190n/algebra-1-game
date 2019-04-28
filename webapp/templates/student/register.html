@@ -1,29 +1,16 @@
+{% extends 'student/base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
 <form method="POST" action="{{ url_for('student.register') }}">
     {{ form.hidden_tag() }}
 
-    {{ form.username.label }}
-    {% if form.username.errors %}
-        {% for e in form.username.errors %}
-            <p>{{ e }}</p>
-        {% endfor %}
-    {% endif %}
-    {{ form.username() }}
+    {% for f in [form.username, form.password, form.confirm] %}
+        {{ macros.text_field(f) }}
+    {% endfor %}
 
-    {{ form.password.label }}
-    {% if form.password.errors %}
-        {% for e in form.password.errors %}
-            <p>{{ e }}</p>
-        {% endfor %}
-    {% endif %}
-    {{ form.password() }}
-
-    {{ form.confirm.label }}
-    {% if form.confirm.errors %}
-        {% for e in form.confirm.errors %}
-            <p>{{ e }}</p>
-        {% endfor %}
-    {% endif %}
-    {{ form.confirm() }}
-
-    <input type="submit" value="Register">
+    <input type="submit" class="button is-primary" value="Register">
 </form>
+{% endblock %}

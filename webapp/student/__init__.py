@@ -6,7 +6,7 @@ password_hasher = PasswordHasher()
 from .models import Student
 
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'student.login'
 login_manager.session_protection = 'strong'
 login_manager.login_message = 'Please log in to access this page'
 login_manager.login_message_category = 'info'

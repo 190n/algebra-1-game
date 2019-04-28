@@ -1,0 +1,31 @@
+{% macro text_field(f) %}
+<div class="field">
+    {{ f.label(class_='label') }}
+    <div class="control">
+        {% if f.errors %}
+            {{ f(class_='input is-danger') }}
+            {% for e in f.errors %}
+                <p class="help is-danger">{{ e }}</p>
+            {% endfor %}
+        {% else %}
+            {{ f(class_='input') }}
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro checkbox(f) %}
+<div class="field">
+    <div class="control">
+        <label class="checkbox" for="{{ f.label.field_id }}">
+            {{ f() }}
+            {{ f.label.text }}
+            {% if f.errors %}
+                {% for e in f.errors %}
+                    <p class="help is-danger">{{ e }}</p>
+                {% endfor %}
+            {% endif %}
+        </label>
+    </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block nav_menu %}
+<div class="navbar-start">
+    <a href="{{ url_for('student.home') }}" class="navbar-item">Home</a>
+</div>
+<div class="navbar-end">
+    <div class="navbar-item">
+        <div class="buttons">
+            {% if g.logged_in %}
+            <a href="{{ url_for('student.logout') }}" class="button is-danger">Log out {{ g.user.username|e }}</a>
+            {% else %}
+            <a href="{{ url_for('student.register') }}" class="button is-primary">Register</a>
+            <a href="{{ url_for('student.login') }}" class="button">Log in</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

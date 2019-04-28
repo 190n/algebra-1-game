@@ -1,0 +1,13 @@
+{% extends 'student/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<p>
+    {% if g.logged_in %}
+    Logged in as {{ g.user.username|e }}
+    {% else %}
+    Not logged in
+    {% endif %}
+</p>
+{% endblock %}

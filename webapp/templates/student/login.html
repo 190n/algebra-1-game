@@ -1,0 +1,16 @@
+{% extends 'student/base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{ url_for('student.login') }}">
+    {{ form.hidden_tag() }}
+
+    {{ macros.text_field(form.username) }}
+    {{ macros.text_field(form.password) }}
+    {{ macros.checkbox(form.remember) }}
+
+    <input type="submit" class="button is-primary" value="Login">
+</form>
+{% endblock %}

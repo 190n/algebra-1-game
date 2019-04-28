@@ -10,10 +10,10 @@ class Student(db.Model):
     password_hash = db.Column(db.String)
     email = db.Column(db.String)
 
-    def __init__(self, username, password_hash, email):
+    def __init__(self, username, password):
         self.username = username
-        self.password_hash = password_hash
-        self.email = email
+        self.set_password(password)
+        self.email = ''
 
     def __repr__(self):
         return f"<User '{self.username}>'"

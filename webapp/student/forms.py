@@ -7,6 +7,7 @@ from .models import Student
 class LoginForm(Form):
     username = StringField('Username', [DataRequired()])
     password = PasswordField('Password', [DataRequired()])
+    remember = BooleanField('Remember me')
 
     def validate(self):
         check_validate = super(LoginForm, self).validate()
@@ -17,7 +18,7 @@ class LoginForm(Form):
         if not user:
             self.username.errors.append('Username and password do not match')
             return False
-        if not self.user.check_password(self.password.data):
+        if not user.check_password(self.password.data):
             self.username.errors.append('Username and password do not match')
             return False
 
