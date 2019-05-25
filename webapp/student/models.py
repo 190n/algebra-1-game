@@ -2,46 +2,20 @@ from flask_login import AnonymousUserMixin
 from argon2.exceptions import VerifyMismatchError
 
 from .. import db
-from ..auth import password_hasher
 
-class Student(db.Model):
+class StudentData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, default='')
-    password_hash = db.Column(db.String)
-    email = db.Column(db.String)
 
-    def __init__(self, username, password):
-        self.username = username
-        self.set_password(password)
-        self.email = ''
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='student_data')
 
-    def __repr__(self):
-        return f"<User '{self.username}>'"
+    enrollments = db.relationship('StudentEnrollment', back_populates='student')
 
-    @property
-    def is_authenticated(self):
-        if isinstance(self, AnonymousUserMixin):
-            return False
-        else:
-            return True
+    def __init__(self, user):
+        self.user = user
 
-    @property
-    def is_active(self):
-        return True
-    
-    def get_id(self):
-        return 's_' + str(self.id)
+    def join_section(self, sec):
+        se = StudentEnrollment(self, sec)
+        db.session.add(se)
 
-    def set_password(self, pw):
-        self.password_hash = password_hasher.hash(pw)
-
-    def check_password(self, pw):
-        try:
-            password_hasher.verify(self.password_hash, pw) # raises VerifyMismatchError if they do not match
-            if password_hasher.check_needs_rehash(self.password_hash):
-                # params have changed
-                self.set_password(pw)
-
-            return True
-        except VerifyMismatchError:
-            return False
+from ..teacher.models import StudentEnrollment

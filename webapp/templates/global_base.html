@@ -5,6 +5,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        {% block extraJS %}{% endblock %}
     </head>
     <body>
         <nav class="navbar is-light" role="navigation" aria-label="main navigation">
@@ -17,12 +20,28 @@
                 </a>
             </div>
             <div class="navbar-menu">
-                {% block nav_menu %}{% endblock %}
+                <div class="navbar-start">
+                    <!-- brand -->
+                    {% block nav_start %}{% endblock %}
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        {% block nav_end %}{% endblock %}
+                        <div class="buttons">
+                            {% if g.logged_in %}
+                            <a href="{{ url_for('auth.logout') }}" class="button is-danger">Log out {{ g.user.username|e }}</a>
+                            {% else %}
+                            <a href="{{ url_for('auth.register') }}" class="button is-primary">Register</a>
+                            <a href="{{ url_for('auth.login') }}" class="button">Log in</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
         <section class="section">
             <div class="container">
-                <h1 class="title">{{ self.title() }}</h1>
+                <h1 class="title is-1">{{ self.title() }}</h1>
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}

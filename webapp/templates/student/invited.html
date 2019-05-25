@@ -1,0 +1,24 @@
+{% extends 'student/base.html' %}
+
+{% block title %}You&apos;ve been invited{% endblock %}
+
+{% block content %}
+<p class="is-size-4">
+    You&apos;ve been invited to join <strong>{{ section.name }}</strong>!
+</p>
+{% if g.logged_in %}
+<p>
+    <form method="POST" action="{{ url_for('student.join') }}">
+        {{ form.hidden_tag() }}
+        <input type="hidden" name="join_code" value="{{ section.join_code }}">
+        <input type="submit" class="button is-primary" value="Accept invitation">
+    </form>
+</p>
+{% else %}
+<p>
+    <a href="{{ url_for('auth.login') }}">Log in</a> or
+    <a href="{{ url_for('auth.register') }}">create an account</a> to accept
+    this invitation.
+</p>
+{% endif %}
+{% endblock %}

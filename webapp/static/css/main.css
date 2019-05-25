@@ -1,0 +1,23 @@
+.input.is-content {
+    box-shadow: none;
+    padding: 0 0 2px 0;
+    border: 0;
+    border-radius: 0;
+    box-sizing: content-box;
+    background: transparent;
+}
+
+.input.is-content:hover {
+    border-bottom: 2px solid hsl(0, 0%, 71%);
+    padding-bottom: 0;
+}
+
+.input.is-content:focus {
+    padding-bottom: 0;
+    border-bottom: 2px solid hsl(217, 71%, 53%);
+}
+
+.edit-question-answer.is-correct {
+    background-color: hsla(141, 71%, 48%, 0.1);
+    border-color: hsl(141, 71%, 48%);
+}

@@ -1,0 +1,20 @@
+{% extends 'student/base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}Join a section{% endblock %}
+
+{% block content %}
+
+<p>
+    You can join a section using the join code from your teacher.
+</p>
+
+<form method="POST" action="{{ url_for('student.join') }}">
+    {{ form.hidden_tag() }}
+
+    {{ macros.text_field(form.join_code) }}
+
+    <input type="submit" class="button is-primary" value="Join">
+</form>
+
+{% endblock %}

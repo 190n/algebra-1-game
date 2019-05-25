@@ -1,0 +1,18 @@
+{% extends 'global_base.html' %}
+
+{% block nav_menu %}
+<div class="navbar-start">
+    <a href="{{ url_for('teacher.home') }}" class="navbar-item">Home</a>
+</div>
+<div class="navbar-end">
+    <div class="navbar-item">
+        <div class="buttons">
+            {% if g.logged_in %}
+            <a href="{{ url_for('teacher.logout') }}" class="button is-danger">Log out {{ g.user.username|e }}</a>
+            {% else %}
+            <a href="{{ url_for('teacher.login') }}" class="button is-primary">Log in</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

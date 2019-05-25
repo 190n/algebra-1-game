@@ -1,0 +1,76 @@
+{% extends 'teacher/base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}Create assignment{% endblock %}
+
+{% block extraJS %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/createAssignment.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+{% if not select_section %}
+<p>
+    You are creating an assignment in the section
+    <a href="{{ url_for('teacher.view_section', id=section.id) }}"><strong>{{ section.name }}</strong></a>.
+    To create an assignment in a different section,
+    <a href="{{ url_for('teacher.create_assignment_without_section') }}">click here</a>.
+</p>
+{% endif %}
+
+<section class="section">
+    <form method="POST" action="{{ url_for('teacher.create_assignment_without_section') }}">
+        {{ form.hidden_tag() }}
+        {% if not select_section %}
+        <input type="hidden" name="section_id" value="{{ section.id }}">
+        {% endif %}
+        <input type="hidden" name="questions_json" id="questionsJSON" value="">
+
+        {% if select_section %}
+        {{ macros.select_field_with_placeholder(form.section_id, 'Choose a section') }}
+        {% endif %}
+
+        {{ macros.text_field(form.assignment_name) }}
+        {{ macros.basic_field(form.date, 'date') }}
+        {{ macros.checkbox(form.publish) }}
+
+        <h3 class="title is-4">Questions</h3>
+        <code id="questionsDebug"></code>
+        <section class="section" id="questions">
+        </section>
+
+        <a class="button is-info" id="add-question">Add another question</a><br><br>
+
+        <input type="submit" class="button is-primary" value="Create assignment">
+    </form>
+</section>
+
+{% raw %}
+<script id="question-template" type="text/x-handlebars-template">
+    <div class="column is-narrow has-text-centered">
+        <span class="icon"><i class="fas fa-bars"></i></span>
+    </div>
+    <div class="column">
+        <input type="text" class="input is-medium is-content title" placeholder="Question {{n}}" id="question{{index}}">
+        <div class="panel">
+            <div class="panel-block edit-question-answer is-correct">
+                <input type="text" class="input is-content" placeholder="Answer 1" id="q{{index}}A0">&nbsp;
+                <a class="delete" id="delQ{{index}}A0"></a>
+            </div>
+            <div class="panel-block edit-question-answer">
+                <input type="text" class="input is-content" placeholder="Add another answer..." id="newQ{{index}}">
+            </div>
+        </div>
+        <div class="has-text-centered">
+            <a class="button is-small is-danger" id="delQ{{index}}">Delete this question</a>
+        </div>
+    </div>
+</script>
+
+<script id="answer-template" type="text/x-handlebars-template">
+    <input type="text" class="input is-content" placeholder="Answer {{n}}" id="q{{qIndex}}A{{aIndex}}">&nbsp;
+    <a class="delete" id="delQ{{qIndex}}A{{aIndex}}"></a>
+</script>
+{% endraw %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'global_base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{ url_for('auth.register') }}">
+    {{ form.hidden_tag() }}
+
+    {% for f in [form.username, form.password, form.confirm] %}
+        {{ macros.text_field(f) }}
+    {% endfor %}
+
+    <input type="submit" class="button is-primary" value="Register">
+</form>
+{% endblock %}

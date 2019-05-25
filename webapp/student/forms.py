@@ -1,42 +1,24 @@
 from flask_wtf import FlaskForm as Form
+from flask_login import current_user
 from wtforms import StringField, TextAreaField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo, URL
+from sqlalchemy.orm.exc import NoResultFound
 
-from .models import Student
+from .models import StudentData
+from ..teacher.models import Section
 
-class LoginForm(Form):
-    username = StringField('Username', [DataRequired()])
-    password = PasswordField('Password', [DataRequired()])
-    remember = BooleanField('Remember me')
+class JoinForm(Form):
+    join_code = StringField('Join code', [DataRequired()])
 
     def validate(self):
-        check_validate = super(LoginForm, self).validate()
+        check_validate = super(JoinForm, self).validate()
         if not check_validate:
             return False
 
-        user = Student.query.filter_by(username=self.username.data).first()
-        if not user:
-            self.username.errors.append('Username and password do not match')
-            return False
-        if not user.check_password(self.password.data):
-            self.username.errors.append('Username and password do not match')
-            return False
-
-        return True
-
-class RegisterForm(Form):
-    username = StringField('Username', [DataRequired()])
-    password = PasswordField('Password', [DataRequired(), Length(min=8)])
-    confirm = PasswordField('Confirm Password', [DataRequired(), EqualTo('password')])
-
-    def validate(self):
-        check_validate = super(RegisterForm, self).validate()
-        if not check_validate:
-            return False
-
-        user = Student.query.filter_by(username=self.username.data).first()
-        if user:
-            self.username.errors.append('That username is taken')
+        try:
+            sec = Section.query.filter_by(join_code=self.join_code.data).one()
+        except NoResultFound:
+            self.join_code.errors.append('That join code is invalid')
             return False
 
         return True

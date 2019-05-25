@@ -1,0 +1,50 @@
+{% extends 'teacher/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    {% if sections|length == 0 %}
+    <p>
+        You have no sections.
+    </p>
+    {% else %}
+    <h2 class="title is-3">{{ g.user.username }}'s sections</h2>
+
+    <table class="table is-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Join code</th>
+                <th>Enrolled students</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sections %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('teacher.view_section', id=s.id) }}">{{ s.name }}</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('teacher.view_section', id=s.id) }}#join_code">
+                        {% if s.joinable %}
+                        <code>{{ s.join_code }}</code>
+                        {% else %}
+                        Not joinable
+                        {% endif %}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ url_for('teacher.view_section', id=s.id) }}#enrolled">{{ s.enrolled|length }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</section>
+
+<a href="{{ url_for('teacher.create_section') }}" class="button is-primary">Create section</a>
+
+{% endblock %}

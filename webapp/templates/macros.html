@@ -1,17 +1,21 @@
-{% macro text_field(f) %}
+{% macro basic_field(f, type) %}
 <div class="field">
     {{ f.label(class_='label') }}
     <div class="control">
         {% if f.errors %}
-            {{ f(class_='input is-danger') }}
+            {{ f(class_='input is-danger', type=type) }}
             {% for e in f.errors %}
                 <p class="help is-danger">{{ e }}</p>
             {% endfor %}
         {% else %}
-            {{ f(class_='input') }}
+            {{ f(class_='input', type=type) }}
         {% endif %}
     </div>
 </div>
+{% endmacro %}
+
+{% macro text_field(f) %}
+{{ basic_field(f, 'text') }}
 {% endmacro %}
 
 {% macro checkbox(f) %}
@@ -28,4 +32,33 @@
         </label>
     </div>
 </div>
+{% endmacro %}
+
+{% macro select_field_with_placeholder(f, placeholder) %}
+<div class="field">
+    {{ f.label(class_='label') }}
+    <div class="control">
+        <div class="select{% if f.errors %} is-danger{% endif %}">
+            <select required>
+                <option value="" selected disabled>{{ placeholder }}</option>
+                {% for c in f.choices %}
+                    <option value="{{ c[0] }}">{{ c[1] }}</option>
+                {% endfor %}
+            </select>
+            {% for e in f.errors %}
+                <p class="help is-danger">{{ e }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro breadcrumbs(l) %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        {% for b in l %}
+        <li><a href="{{ url_for(b[0], **(b[2] if len(b) > 2 else {})) }}">{{ b[1] }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
 {% endmacro %}

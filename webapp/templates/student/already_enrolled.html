@@ -1,0 +1,11 @@
+{% extends 'student/base.html' %}
+
+{% block title %}Already in section!{% endblock %}
+
+{% block content %}
+
+<p>
+    You're already in the section <a href="{{ url_for('student.view_section', id=section.id) }}"><strong>{{ section.name }}</strong></a>!
+</p>
+
+{% endblock %}

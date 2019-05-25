@@ -48,8 +48,12 @@ class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     date = db.Column(db.Date)
+    published = db.Column(db.Boolean, default=False)
 
     problems = db.relationship('Problem', order_by=Problem.id, back_populates='assignment')
+
+    section_id = db.Column(db.Integer, db.ForeignKey('section.id'))
+    section = db.relationship('Section', back_populates='assignments')
 
     def __init__(self, name, date, problems):
         self.name = name

@@ -1,4 +1,4 @@
-{% extends 'student/base.html' %}
+{% extends 'teacher/base.html' %}
 {% import 'macros.html' as macros %}
 
 {% block title %}Log in{% endblock %}
@@ -6,13 +6,13 @@
 {% block content %}
 
 <p>
-    You are logging in as a student.
-    <a href="{{ url_for('teacher.login') }}">
-        Click here to log in as a teacher.
+    You are logging in as a teacher.
+    <a href="{{ url_for('student.login') }}">
+        Click here to log in as a student.
     </a>
 </p>
 
-<form method="POST" action="{{ url_for('student.login') }}">
+<form method="POST" action="{{ url_for('teacher.login') }}">
     {{ form.hidden_tag() }}
 
     {{ macros.text_field(form.username) }}

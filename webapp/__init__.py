@@ -9,7 +9,7 @@ def page_not_found(error):
     return render_template('404.html'), 404
 
 def create_app(object_name):
-    from . import assignment, auth, student, main
+    from . import assignment, auth, student, main, teacher
 
     app = Flask(__name__)
     app.config.from_object(object_name)
@@ -20,5 +20,6 @@ def create_app(object_name):
     auth.create_module(app)
     assignment.create_module(app)
     student.create_module(app)
+    teacher.create_module(app)
     app.register_error_handler(404, page_not_found)
     return app
